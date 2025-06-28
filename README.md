@@ -1,0 +1,1 @@
+# shd_ruletka_bot
