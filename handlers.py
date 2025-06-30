@@ -4,7 +4,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 import json
 from utils import spin_roulette
 from database import user_already_played, save_user_spin, clean_old_spins
-from logger import log_user_action, log_error
+from logger import log_error
 
 def get_unique_prizes(prizes):
     """Получить уникальные призы без повторений"""
@@ -43,7 +43,7 @@ def register_handlers(dp):
             user_id = message.from_user.id
             username = message.from_user.username or "Unknown"
             
-            log_user_action(user_id, "start_command", f"Username: {username}")
+            # log_user_action(user_id, "start_command", f"Username: {username}")
             
             await clean_old_spins()
             
@@ -77,12 +77,12 @@ def register_handlers(dp):
             user_id = callback.from_user.id
             username = callback.from_user.username or "Unknown"
             
-            log_user_action(user_id, "spin_roulette_clicked", f"Username: {username}")
+            # log_user_action(user_id, "spin_roulette_clicked", f"Username: {username}")
             
             # Проверяем, не участвовал ли пользователь уже сегодня
             if await user_already_played(user_id):
                 await callback.answer("😅 Вы уже участвовали сегодня! Приходите завтра 🎁", show_alert=True)
-                log_user_action(user_id, "already_played_today")
+                # log_user_action(user_id, "already_played_today")
                 return
             
             # Загружаем конфигурацию
@@ -101,7 +101,7 @@ def register_handlers(dp):
             prize = await spin_roulette(new_message, config["prizes"], config["review_link"])
             await save_user_spin(user_id)
             
-            log_user_action(user_id, "won_prize", f"Prize: {prize['name']}")
+            # log_user_action(user_id, "won_prize", f"Prize: {prize['name']}")
             
         except Exception as e:
             log_error(e, f"spin_roulette_callback for user {callback.from_user.id if callback.from_user else 'Unknown'}")

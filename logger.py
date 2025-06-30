@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 
 def setup_logger():
-    """Настройка логирования только в консоль"""
+    """Настройка логирования только в консоль и только уровня ERROR"""
     
     # Настраиваем форматтер
     formatter = logging.Formatter(
@@ -17,18 +17,13 @@ def setup_logger():
     
     # Настраиваем корневой логгер
     logger = logging.getLogger()
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.ERROR)
     
     # Очищаем существующие хендлеры и добавляем только консольный
     logger.handlers.clear()
     logger.addHandler(console_handler)
     
     return logger
-
-def log_user_action(user_id: int, action: str, details: str = ""):
-    """Логирование действий пользователей"""
-    logger = logging.getLogger('user_actions')
-    logger.info(f"User {user_id}: {action} - {details}")
 
 def log_error(error: Exception, context: str = ""):
     """Логирование ошибок"""

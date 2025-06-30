@@ -32,8 +32,6 @@ async def on_startup():
     """Действия при запуске бота"""
     try:
         await setup_db()
-        logger.info("База данных инициализирована")
-        logger.info("Бот запущен успешно")
     except Exception as e:
         log_error(e, "startup")
         raise
@@ -47,7 +45,7 @@ async def main():
         await on_startup()
         await dp.start_polling(bot)
     except KeyboardInterrupt:
-        logger.info("Получен сигнал остановки")
+        pass
     except Exception as e:
         log_error(e, "main")
     finally:
